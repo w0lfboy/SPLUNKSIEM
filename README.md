@@ -1,9 +1,10 @@
 # Splunk Reports
-In this repository, I utilize Splunk to design a powerful monitoring solution to protect Vandaly from security attacks.
+In this repository, I utilize Splunk ES to design a powerful monitoring solution to protect and notify Vandaly of any possible security attacks.
 
-The [Speed Test File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/server_speedtest.csv) has been uploaded to my local Splunk ES for analysis.
-The [Nessus Logs File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/nessus_logs.csv) has been uploaded to my local Splunk ES for analysis.
-The [Administrator Logs File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/Administrator_logs.csv) has been uploaded to my local Splunk ES for analysis.
+- The [Speed Test File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/server_speedtest.csv) has been uploaded to my local Splunk ES for analysis.
+- The [Nessus Logs File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/nessus_logs.csv) has been uploaded to my local Splunk ES for analysis.
+- The [Administrator Logs File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/Administrator_logs.csv) has been uploaded to my local Splunk ES for analysis.
+- 
 ## Step 1: The Need for Speed
 *Task: Create a report to determine the impact that the DDOS attack had on download and upload speed. Additionally, create an additional field to calculate the ratio of the upload speed to the download speed.*
 
