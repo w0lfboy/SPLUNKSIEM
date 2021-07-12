@@ -2,13 +2,16 @@
 In this repository, I utilize Splunk to design a powerful monitoring solution to protect Vandaly from security attacks.
 
 The [Speed Test File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/server_speedtest.csv) has been uploaded to my local Splunk ES for analysis.
+The [Nessus Logs File](https://github.com/w0lfboy/splunk_reports/blob/main/csv%20files/nessus_logs.csv) has been uploaded to my local Splunk ES for analysis.
 
 ## Step 1: The Need for Speed
 *Task: Create a report to determine the impact that the DDOS attack had on download and upload speed. Additionally, create an additional field to calculate the ratio of the upload speed to the download speed.*
 
-First, I created an eval command that shows the ratio between upload and download speeds: ` | eval ratio = 'UPLOAD_MEGABITS' / 'DOWNLOAD_MEGABITS' `
+First, I created an eval command that shows the ratio between upload and download speeds: 
+` | eval ratio = 'UPLOAD_MEGABITS' / 'DOWNLOAD_MEGABITS' `
 
-Then, I created a table to help me analyze when the approximate date and time of the attack occured: ` | table _time IP_ADDRESS DOWNLOAD_MEGABITS UPLOAD_MEGABITS ratio `
+Then, I created a table to help me analyze when the approximate date and time of the attack occured: 
+` | table _time IP_ADDRESS DOWNLOAD_MEGABITS UPLOAD_MEGABITS ratio `
 
 ![18.1 hw](https://github.com/w0lfboy/splunk_reports/blob/main/images/18.1%20hw.png)
 
@@ -17,31 +20,22 @@ Based on the report created, the attack occured at approximately between 12:00pm
 ![18.2 hw](https://github.com/w0lfboy/splunk_reports/blob/main/images/18.2%20hw.png)
 
 ## Step 2: Are We Vulnerable?
-Background:  Due to the frequency of attacks, your manager needs to be sure that sensitive customer data on their servers is not vulnerable. Since Vandalay uses Nessus vulnerability scanners, you have pulled the last 24 hours of scans to see if there are any critical vulnerabilities.
+*Background:  Due to the frequency of attacks, your manager needs to be sure that sensitive customer data on their servers is not vulnerable. Since Vandalay uses Nessus vulnerability scanners, you have pulled the last 24 hours of scans to see if there are any critical vulnerabilities.*
 
-For more information on Nessus, read the following link: https://www.tenable.com/products/nessus
+*Task: Create a report determining how many critical vulnerabilities exist on the customer data server. Then, build an alert to notify your team if a critical vulnerability reappears on this server.*
 
+To create a report that determines critical vulnerabilities that exist on the customer IP `10.11.36.23` we use the following search:
+`source="nessus_logs.csv" host="nessus logs" sourcetype="csv" dest_ip="10.11.36.23" severity=critical | stats count by dest_ip,severity`
 
-Task: Create a report determining how many critical vulnerabilities exist on the customer data server. Then, build an alert to notify your team if a critical vulnerability reappears on this server.
+![18.3](https://github.com/w0lfboy/splunk_reports/blob/main/images/18.3.png)
 
+This shows a total of **49 critical** vulnerabilities on the customer IP 10.11.36.23.
 
-Upload the following file from the Nessus vulnerability scan.
+Now that we have the search set up, we can create an alert that notifies the SOC of any critical vulnerabilities on the server.  The alert will monitor the IP daily and will email soc@vandalay.com if there are any vulnerabilities.
 
-Nessus Scan Results
+![18.4.png](https://github.com/w0lfboy/splunk_reports/blob/main/images/18.4.png)
+![18.5.png](https://github.com/w0lfboy/splunk_reports/blob/main/images/18.5.png)
 
-
-
-Create a report that shows the count of critical vulnerabilities from the customer database server.
-
-The database server IP is 10.11.36.23.
-The field that identifies the level of vulnerabilities is severity.
-
-
-
-Build an alert that monitors every day to see if this server has any critical vulnerabilities. If a vulnerability exists, have an alert emailed to soc@vandalay.com.
-
-
-Submit a screenshot of your report and a screenshot of proof that the alert has been created.
 
 ## Step 3: Drawing the (base)line
 Background:  A Vandaly server is also experiencing brute force attacks into their administrator account. Management would like you to set up monitoring to notify the SOC team if a brute force attack occurs again.
